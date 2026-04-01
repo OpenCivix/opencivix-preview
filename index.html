@@ -3,47 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OpenCivix Preview</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      margin: 0;
-      background: #f8fafc;
-      color: #0f172a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    .container {
-      text-align: center;
-      max-width: 600px;
-    }
-    .badge {
-      font-size: 12px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #64748b;
-      margin-bottom: 16px;
-    }
-    h1 {
-      font-size: 36px;
-      margin-bottom: 16px;
-    }
-    p {
-      font-size: 16px;
-      color: #475569;
-    }
-  </style>
+  <title>OpenCivix | Election Intelligence Platform</title>
+
+  <link rel="stylesheet" href="styles.css" />
+
 </head>
 <body>
-  <div class="container">
-    <div class="badge">Internal Preview</div>
-    <h1>OpenCivix</h1>
-    <p>
-      This is a private preview environment for the OpenCivix platform and website.
-      Content is under active development and subject to change.
-    </p>
-  </div>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="logo">
+        <span class="logo-open">Open</span><span class="logo-civix">Civix</span>
+      </div>
+      <nav>
+        <a href="#platform">Platform</a>
+        <a href="#solutions">Solutions</a>
+        <a href="#trust">Approach</a>
+        <a href="#contact" class="cta">Request Access</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="badge">Internal Preview</div>
+      <h1>
+        Monitor public election signals.<br/>
+        Structure reporting.<br/>
+        Improve operational awareness.
+      </h1>
+      <p class="hero-sub">
+        OpenCivix is an election intelligence platform focused on social media monitoring,
+        structured reporting, and election-related situational awareness.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#platform" class="btn primary">Explore Platform</a>
+        <a href="#trust" class="btn secondary">Review Approach</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="platform" class="section">
+    <div class="container">
+      <h2>Platform</h2>
+      <p class="section-sub">
+        A focused system for monitoring public digital activity, converting signals into structured records,
+        and supporting review workflows.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Social Media Monitoring</h3>
+          <p>Track election-related public conversation with configurable keyword logic, watchlists, and tagging.</p>
+        </div>
+
+        <div class="card">
+          <h3>Structured Reporting</h3>
+          <p>Convert observed signals into standardized reports for review, escalation, and documentation.</p>
+        </div>
+
+        <div class="card">
+          <h3>Signal Intelligence</h3>
+          <p>Identify patterns, emerging narratives, and clusters through a centralized dashboard.</p>
+        </div>
+
+        <div class="card">
+          <h3>Operational Support</h3>
+          <p>Provide situational awareness tools for election-facing institutions and authorized stakeholders.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="solutions" class="section alt">
+    <div class="container">
+      <h2>Core Workflows</h2>
+
+      <div class="grid three">
+        <div class="card">
+          <h3>Monitoring</h3>
+          <ul>
+            <li>Keyword tracking</li>
+            <li>Narrative tagging</li>
+            <li>Priority alerting</li>
+            <li>Cross-platform review</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Reporting</h3>
+          <ul>
+            <li>Case creation</li>
+            <li>Incident summaries</li>
+            <li>Evidence logging</li>
+            <li>Export-ready records</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Intelligence</h3>
+          <ul>
+            <li>Trend visibility</li>
+            <li>Activity clustering</li>
+            <li>Operational summaries</li>
+            <li>Decision support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="trust" class="section">
+    <div class="container narrow">
+      <h2>Approach</h2>
+
+      <div class="trust-box">
+        <p>
+          OpenCivix is designed to support monitoring, documentation, and structured review of public-facing
+          digital activity relevant to election operations.
+        </p>
+        <p>
+          The platform emphasizes transparency, traceability, and standardized reporting workflows rather than
+          directing or influencing outcomes.
+        </p>
+        <p>
+          It is intended for use by institutions requiring visibility into public digital signals and related
+          operational context.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section contact">
+    <div class="container">
+      <h2>OpenCivix</h2>
+      <p class="section-sub">
+        This is an internal preview environment. Functionality and structure are under active development.
+      </p>
+
+      <div class="contact-box">
+        <p>For early access or review coordination:</p>
+        <a href="mailto:hello@opencivix.com">hello@opencivix.com</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© OpenCivix — Internal Preview</p>
+    </div>
+  </footer>
+
 </body>
 </html>
