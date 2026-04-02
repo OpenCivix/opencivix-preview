@@ -103,6 +103,17 @@
 // DATA MODEL (EDITABLE)
 // =======================
 
+const isoMap = {
+  "840": "USA",
+  "076": "BRA",
+  "356": "IND",
+  "566": "NGA",
+  "276": "DEU",
+  "392": "JPN",
+  "124": "CAN",
+  "032": "ARG"
+};
+
 const countryData = {
   USA: {
     country: "United States",
@@ -254,7 +265,9 @@ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
       .attr("fill", "#dbe4ee")
 
       .on("mouseover", function(event, d) {
-        const iso = d.id;
+        const iso = isoMap[d.id];
+        if (!iso || !countryData[iso]) return;
+
         const data = countryData[iso];
 
         if (data) {
@@ -275,7 +288,7 @@ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
       })
 
       .on("click", function(event, d) {
-  const iso = d.id;
+  const iso = isoMap[d.id];
   const data = countryData[iso];
 
   if (!data) return;
