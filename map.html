@@ -8,7 +8,7 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: Aptos, sans-serif;
       margin: 0;
       background: #f5f7fa;
     }
@@ -57,6 +57,21 @@
       border-radius: 12px;
       font-size: 12px;
     }
+
+#sidebar h3 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.age-group {
+  margin-bottom: 12px;
+}
+
+.age-group strong {
+  display: block;
+  margin-bottom: 4px;
+}
   </style>
 </head>
 
@@ -66,13 +81,18 @@
   <svg id="map"></svg>
 
   <div id="sidebar">
-    <h2 id="country-name">Select a country</h2>
-    <p id="region"></p>
+  <h2 id="country-name">Select a country</h2>
+  <p id="region"></p>
+  <p id="voting-age"></p>
 
-    <div id="platforms"></div>
+  <h3>Dominant Platforms</h3>
+  <div id="platforms"></div>
 
-    <p id="notes"></p>
-  </div>
+  <h3>Platforms by Voting-Eligible Age Group</h3>
+  <div id="age-breakdown"></div>
+
+  <p id="notes"></p>
+  <p id="age-status"></p>
 </div>
 
 <div class="tooltip" id="tooltip" style="opacity:0;"></div>
@@ -87,38 +107,113 @@ const countryData = {
   USA: {
     country: "United States",
     region: "North America",
+    votingAge: 18,
     platforms: ["YouTube", "Facebook", "Instagram", "TikTok"],
-    notes: "High social media penetration with multi-platform influence."
+    ageDistribution: {
+      "18-29": ["YouTube", "Instagram", "TikTok", "Facebook"],
+      "30-49": ["YouTube", "Facebook", "Instagram", "TikTok"],
+      "50+": ["Facebook", "YouTube"]
+    },
+    notes: "Age pattern informed by Pew 2025; younger adults are significantly more likely to use Instagram and TikTok, while YouTube and Facebook remain strong across age groups.",
+    ageDataStatus: "Country-specific age evidence"
   },
+
   BRA: {
     country: "Brazil",
     region: "Latin America",
+    votingAge: 16,
     platforms: ["WhatsApp", "Instagram", "Facebook", "Telegram"],
-    notes: "Messaging platforms dominate political communication."
+    ageDistribution: {
+      "16-24": ["Instagram", "YouTube", "TikTok", "WhatsApp"],
+      "25-44": ["WhatsApp", "Instagram", "Facebook", "YouTube"],
+      "45+": ["WhatsApp", "Facebook", "YouTube"]
+    },
+    notes: "Voting is optional from age 16. Platform ordering is seeded from current country messaging dominance and should be refined as OpenCivix validates age-specific evidence.",
+    ageDataStatus: "Provisional country model"
   },
+
+  CAN: {
+    country: "Canada",
+    region: "North America",
+    votingAge: 18,
+    platforms: ["Messenger", "Instagram", "Apple Messages", "WhatsApp"],
+    ageDistribution: {
+      "18-29": ["Instagram", "Messenger", "Apple Messages", "WhatsApp"],
+      "30-49": ["Messenger", "Instagram", "Apple Messages", "WhatsApp"],
+      "50+": ["Messenger", "Apple Messages", "WhatsApp"]
+    },
+    notes: "Messaging-heavy country profile based on current public usage reporting; age cohorts are provisional until validated with country-specific age research.",
+    ageDataStatus: "Provisional country model"
+  },
+
+  ARG: {
+    country: "Argentina",
+    region: "Latin America",
+    votingAge: 16,
+    platforms: ["WhatsApp", "Instagram", "Messenger", "RCS"],
+    ageDistribution: {
+      "16-24": ["Instagram", "WhatsApp", "YouTube", "TikTok"],
+      "25-44": ["WhatsApp", "Instagram", "Messenger", "YouTube"],
+      "45+": ["WhatsApp", "Messenger", "Facebook"]
+    },
+    notes: "Voting begins at age 16 on an optional basis. Platform mix reflects current messaging dominance and should be refined with country-specific age segmentation.",
+    ageDataStatus: "Provisional country model"
+  },
+
   IND: {
     country: "India",
     region: "South Asia",
+    votingAge: 18,
     platforms: ["WhatsApp", "YouTube", "Facebook", "Instagram"],
-    notes: "Large-scale messaging influence with video dominance."
+    ageDistribution: {
+      "18-24": ["YouTube", "Instagram", "WhatsApp", "TikTok"],
+      "25-44": ["WhatsApp", "YouTube", "Facebook", "Instagram"],
+      "45+": ["WhatsApp", "Facebook", "YouTube"]
+    },
+    notes: "Age cohorts are provisional and should be validated with country-specific research before analytical use.",
+    ageDataStatus: "Provisional country model"
   },
+
   NGA: {
     country: "Nigeria",
     region: "Africa",
+    votingAge: 18,
     platforms: ["WhatsApp", "Facebook", "TikTok", "YouTube"],
-    notes: "High reliance on messaging and mobile-first platforms."
+    ageDistribution: {
+      "18-24": ["TikTok", "WhatsApp", "Instagram", "YouTube"],
+      "25-44": ["WhatsApp", "Facebook", "YouTube", "TikTok"],
+      "45+": ["WhatsApp", "Facebook", "YouTube"]
+    },
+    notes: "Age cohorts are provisional and should be validated with country-specific research before analytical use.",
+    ageDataStatus: "Provisional country model"
   },
+
   DEU: {
     country: "Germany",
     region: "Europe",
+    votingAge: 18,
     platforms: ["WhatsApp", "Instagram", "Facebook", "Telegram"],
-    notes: "Strong messaging usage alongside social platforms."
+    ageDistribution: {
+      "18-24": ["Instagram", "WhatsApp", "YouTube", "TikTok"],
+      "25-44": ["WhatsApp", "Instagram", "Facebook", "YouTube"],
+      "45+": ["WhatsApp", "Facebook", "YouTube"]
+    },
+    notes: "Age cohorts are provisional and should be validated with country-specific research before analytical use.",
+    ageDataStatus: "Provisional country model"
   },
+
   JPN: {
     country: "Japan",
     region: "East Asia",
+    votingAge: 18,
     platforms: ["LINE", "YouTube", "Instagram", "X"],
-    notes: "LINE is a dominant communication platform."
+    ageDistribution: {
+      "18-24": ["LINE", "Instagram", "YouTube", "X"],
+      "25-44": ["LINE", "YouTube", "Instagram", "X"],
+      "45+": ["LINE", "YouTube"]
+    },
+    notes: "LINE remains central in Japan; age cohorts are provisional pending country-specific validation.",
+    ageDataStatus: "Provisional country model"
   }
 };
 
@@ -180,26 +275,46 @@ d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
       })
 
       .on("click", function(event, d) {
-        const iso = d.id;
-        const data = countryData[iso];
+  const iso = d.id;
+  const data = countryData[iso];
 
-        if (!data) return;
+  if (!data) return;
 
-        document.getElementById("country-name").innerText = data.country;
-        document.getElementById("region").innerText = data.region;
+  document.getElementById("country-name").innerText = data.country;
+  document.getElementById("region").innerText = data.region;
+  document.getElementById("voting-age").innerText = "Voting age: " + data.votingAge;
 
-        const platformsDiv = document.getElementById("platforms");
-        platformsDiv.innerHTML = "";
+  const platformsDiv = document.getElementById("platforms");
+  platformsDiv.innerHTML = "";
 
-        data.platforms.forEach(p => {
-          const span = document.createElement("span");
-          span.className = "badge";
-          span.innerText = p;
-          platformsDiv.appendChild(span);
-        });
+  data.platforms.forEach(p => {
+    const span = document.createElement("span");
+    span.className = "badge";
+    span.innerText = p;
+    platformsDiv.appendChild(span);
+  });
 
-        document.getElementById("notes").innerText = data.notes;
-      });
+  const ageBreakdownDiv = document.getElementById("age-breakdown");
+  ageBreakdownDiv.innerHTML = "";
+
+  Object.entries(data.ageDistribution).forEach(([group, platforms]) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "age-group";
+
+    const title = document.createElement("strong");
+    title.innerText = group;
+
+    const values = document.createElement("div");
+    values.innerText = platforms.join(" • ");
+
+    wrapper.appendChild(title);
+    wrapper.appendChild(values);
+    ageBreakdownDiv.appendChild(wrapper);
+  });
+
+  document.getElementById("notes").innerText = data.notes;
+  document.getElementById("age-status").innerText = "Age-cohort data status: " + data.ageDataStatus;
+});
 
   });
 
